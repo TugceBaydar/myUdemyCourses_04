@@ -1,436 +1,166 @@
+// BUDGET CONTROLLER
+var budgetController = (function() {
 
-// ==================== section 5 , lecture 53
-
-// var john = {
-//   name: 'John',
-//   yearOfBirth: 1990,
-//   job: 'teacher'
-// };
-//
-// var Person = function(name, yearOfBirth, job) {
-//   this.name = name;
-//   this.yearOfBirth = yearOfBirth;
-//   this.job = job;
-// }
-//
-// Person.prototype.calculateAge = function() {
-//   console.log(2018 - this.yearOfBirth);
-// };
-//
-//
-// Person.prototype.lastName = 'Smith';
-//
-// var john = new Person('John', 1990, 'teacher');
-// var jane = new Person('Jane', 1969, 'designer');
-// var mark = new Person('Mark', 1980, 'retired');
-//
-// john.calculateAge();
-// jane.calculateAge();
-// mark.calculateAge();
-//
-// console.log(john.lastName);
-
-//john.__proto__ === Person.prototype
-
-//john.hasOwnProperty('job') that gives a true
-//john.hasOwnProperty('lastName') that gives a false because its not its own property its an inherited property !!
-// john instanceof Person and yes that gives a true because we created it through Person object
+    var Expense = function(id, description, value) {
+        this.id = id;
+        this.description = description;
+        this.value = value;
+        this.percentage = -1;
+    };
 
 
-
-// ==========section 5, lecture 54
-
-// Object.create
-
-
-//
-// var personProto = {
-//   calculateAge: function() {
-//     console.log(2018 - this.yearOfBirth);
-//   }
-// };
-//
-// var john = Object.create(personProto);
-// john.name = 'John';
-// john.yearOfBirth = 1990;
-// john.job = 'teacher';
-//
-// var jane = Object.create(personProto, {
-//   name: { value: 'Jane'},
-//   yearOfBirth: { value: 1969},
-//   job: { value: 'designer'}
-// });
-
-// ========== section 5, lecture 55
-
-// primitives vs objects
-//primitives
-// var a = 23;
-// var b = a;
-// a = 46;
-// console.log(a);
-// console.log(b);
-//
-// //objects
-// var obj1 = {
-//   name: 'John',
-//   age:26
-// }
-//
-//
-// var obj2 = obj1;
-// obj1.age = 30;
-// console.log(obj1.age);
-// console.log(obj2.age);
-//
-// //functions
-//
-// var age= 27;
-// var obj = {
-//   name: 'Jonas',
-//   city: 'Lisbon'
-// };
-//
-// function change(a,b) {
-//   a = 30;
-//   b.city = 'San Francisco';
-// }
-//
-// change (age, obj);
-//
-// cobnsole.log(age);
-// console.log(obj.city);
-
-
-//calculating age with callback functions
-//
-// var years = [1990, 2000, 1985, 1977, 1993];
-//
-// function arrayCalc(arr, fn) {
-//   var arrRes = [];
-//   for(var i=0; i<arr.length; i++) {
-//       arrRes.push(fn(arr[i]));
-//   }
-//   return arrRes;
-// }
-//
-// function calculateAge(el) {
-//   return 2018 - el;
-// }
-//
-// function isFullAge(el) {
-//   return el >= 18;
-// }
-//
-// function maxHeartRate(el) {
-//   if(el >= 18 && el<= 81) {
-//     return Math.round(206.9 - (0.67 * el));
-//   } else {
-//     return - 1;
-//   }
-// }
-//
-//
-// var result = arrayCalc(years, calculateAge);
-// var fullAge = arrayCalc(years, isFullAge);
-// var rates = arrayCalc(result, maxHeartRate);
-// console.log(result);
-// console.log(fullAge);
-// console.log(rates);
-
-//======================section 5 lecture 57
-
-//
-// function interviewQuestions(job) {
-//   if (job==='designer') {
-//     return function(name) {
-//       console.log(name + ', can you please explain what UX design is?');
-//     }
-//   } else if ( job === 'teacher') {
-//     return function(name) {
-//       console.log('what subject do you teach' + name);
-//     }
-//   }
-//     else {
-//       return function(name) {
-//         console.log('hey' + name + 'what do you do?');
-//       }
-//     }
-//   }
-//     var teacherQuestion =
-//     interviewQuestions('teacher');
-//     var designerQuestion =
-//     interviewQuestions('designer');
-//
-//     teacherQuestion('John');
-//     designerQuestion('John');
-//     designerQuestion('Jane');
-//     designerQuestion('Mark');
-//
-//     interviewQuestions('teacher')('Tugce');
-
-// ===============lecture 58
-
-// IIFE
-
-// function game() {
-//   var score = Math.random() * 10;
-//   console.log(score >= 5);
-// }
-//
-// game();
-//
-// (function() {
-//   var score = Math.random() * 10;
-//   console.log(score >= 5);
-// })();
-//
-// (function (goodLuck) {
-//   var score = Math.random() * 10;
-//   console.log(score >= 5 - goodLuck);
-// })(5);
-//
-// // ===============lecture 59 -- 68
-//
-// // Lecture : Closures
-//
-// function retirement(retirementAge) {
-//   var a = ' years left until retirement';
-//   return function(yearOfBirth) {
-//     var age = 2016 - yearOfBirth;
-//     console.log((retirementAge - age) + a);
-//   }
-// }
-//
-// var retirementUS = retirement(66);
-// retirementUS(1990);
-//
-// var retirementGermany = retirement(65);
-//
-// var retirementIceland =
-// retirement(67);
-//
-//
-// retirementGermany(1990);
-// retirementUS(1990);
-// retirementIceland(1990);
-// retirement(66)(1990);
-
-
-// function interviewQuestions(job) {
-//   if (job==='designer') {
-//     return function(name) {
-//       console.log(name + ', can you please explain what UX design is?');
-//     }
-//   } else if ( job === 'teacher') {
-//     return function(name) {
-//       console.log('what subject do you teach' + name);
-//     }
-//   }
-//     else {
-//       return function(name) {
-//         console.log('hey' + name + 'what do you do?');
-//       }
-//     }
-//   }
-
-// function interviewQuestions(job) {
-//   return function(name) {
-//     if (job === 'designer') {
-//       console.log(name + ', can you please explain what UX design is?');
-//     } else if (job === 'teacher') {
-//        console.log('what subject do you teach' + name);
-//     } else {
-//       console.log('hey' + name + 'what do you do?');
-//     }
-//   }
-// }
-//
-// interviewQuestions('teacher')('john');
-
-
-//======================section 5 lecture 69
-//bind, call and apply
-
-// var john = {
-//   name: 'John',
-//   age: 26,
-//   job: 'teacher',
-//   presentation: function(style,timeOfDay) {
-//     if(style === 'formal') {
-//       console.log('good' + timeOfDay + 'ladies and gentelemen! i \' m a' + this.name  + 'i \'m a ' + this.job + 'and i \' m '+ this.age+ 'years old');
-//     }else if (style === 'friendly') {
-//       console.log( 'hey whats up? + i \' m a' + this.name  + 'i \'m a ' + this.job + 'and i \' m '+ this.age+ 'years old' + 'have a nice' + timeOfDay);
-//     }
-//   }
-// };
-//
-// var emily = {
-//   name: 'emily',
-//   age: 35,
-//   job: 'designer'
-// };
-//
-// john.presentation('formal', 'morning');
-// john.presentation.call(emily, 'friendly', 'afternoon');
-//
-// //we borrow johns method for emily !!! with call method !
-//
-// //------john.presentation.apply(emily, ['friendly', 'afternoon']);
-//
-// var johnFriendly = john.presentation.bind(john, 'friendly');
-//
-// johnFriendly('night');
-// johnFriendly('morning');
-//
-// //bind doesnt call the function imediatly ! you gotta store it somewhere !
-//
-// var emilyFormal = john.presentation.bind(emily, 'formal');
-// emilyFormal('afternoon');
-
-//===========
-
-// var years = [1990, 2000, 1985, 1977, 1993];
-//
-// function arrayCalc(arr, fn) {
-//   var arrRes = [];
-//   for(var i=0; i<arr.length; i++) {
-//       arrRes.push(fn(arr[i]));
-//   }
-//   return arrRes;
-// }
-//
-// function calculateAge (el) {
-//   return 2018 - el;
-// }
-//
-// function isFullAge(limit ,el) {
-//   return el >= limit;
-// }
-//
-//
-// var ages= arrayCalc(years, calculateAge);
-// var fullJapan = arrayCalc(ages, isFullAge.bind(this, 20));
-// console.log(ages);
-// console.log(fullJapan);
-
-
-//==================lecture 71
-
-// (function() {
-//   function Question(question, answers, correct) {
-//     this.question = question;
-//     this.answers = answers;
-//     this.correct = correct;
-//   }
-//
-//
-//   Question.prototype.displayQuestion = function(){
-//     console.log(this.question);
-//
-//     for(var i=0; i<this.answers.length; i++) {
-//       console.log(i + ' ' + this.answers[i]);
-//     }
-//   }
-//
-//   Question.prototype.checkAnswer = function(ans) {
-//     if(ans === this.correct) {
-//       console.log('correct answer');
-//     } else {
-//       console.log('wrong aswer');
-//     }
-//   }
-//
-//
-//   var q1 = new Question('Is JS the coolest programming language in the world?',
-//   ['Yes', 'No'],
-//   0);
-//
-//
-//   var q2 = new Question('whats the name of this courses teacher?',
-//   ["john, 'Tugce','Jonas'"],2);
-//
-//   var q3 = new Question('what does best describe coding?',
-//   ['boring','hard','fun'],2);
-//
-//   var questions = [q1, q2, q3];
-//
-//   var n = Math.floor(Math.random() * questions.length);
-//
-//   questions[n].displayQuestion();
-//
-//   var answer = parseInt(prompt('please select the correct answer.'));
-//
-//   questions[n].checkAnswer(answer);
-// })();
-
-
-(function() {
-    function Question(question, answers, correct) {
-        this.question = question;
-        this.answers = answers;
-        this.correct = correct;
-    }
-    Question.prototype.displayQuestion = function() {
-        console.log(this.question);
-        for (var i = 0; i < this.answers.length; i++) {
-            console.log(i + ': ' + this.answers[i]);
-        }
-    }
-    Question.prototype.checkAnswer = function(ans, callback) {
-        var sc;
-
-        if (ans === this.correct) {
-            console.log('Correct answer!');
-            sc = callback(true);
+    Expense.prototype.calcPercentage = function(totalIncome) {
+        if (totalIncome > 0) {
+            this.percentage = Math.round((this.value / totalIncome) * 100);
         } else {
-            console.log('Wrong answer. Try again :)');
-            sc = callback(false);
+            this.percentage = -1;
         }
-
-        this.displayScore(sc);
-    }
-    Question.prototype.displayScore = function(score) {
-        console.log('Your current score is: ' + score);
-        console.log('------------------------------');
-    }
+    };
 
 
-    var q1 = new Question('Is JavaScript the coolest programming language in the world?',
-                          ['Yes', 'No'],
-                          0);
-    var q2 = new Question('What is the name of this course\'s teacher?',
-                          ['John', 'Micheal', 'Jonas'],
-                          2);
-    var q3 = new Question('What does best describe coding?',
-                          ['Boring', 'Hard', 'Fun', 'Tediuos'],
-                          2);
+    Expense.prototype.getPercentage = function() {
+        return this.percentage;
+    };
 
-    var questions = [q1, q2, q3];
 
-    function score() {
-        var sc = 0;
-        return function(correct) {
-            if (correct) {
-                sc++;
+    var Income = function(id, description, value) {
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    };
+
+
+    var calculateTotal = function(type) {
+        var sum = 0;
+        data.allItems[type].forEach(function(cur) {
+            sum += cur.value;
+        });
+        data.totals[type] = sum;
+    };
+
+
+    var data = {
+        allItems: {
+            exp: [],
+            inc: []
+        },
+        totals: {
+            exp: 0,
+            inc: 0
+        },
+        budget: 0,
+        percentage: -1
+    };
+
+
+    return {
+        addItem: function(type, des, val) {
+            var newItem, ID;
+
+            //[1 2 3 4 5], next ID = 6
+            //[1 2 4 6 8], next ID = 9
+            // ID = last ID + 1
+
+            // Create new ID
+            if (data.allItems[type].length > 0) {
+                ID = data.allItems[type][data.allItems[type].length - 1].id + 1;
+            } else {
+                ID = 0;
             }
-            return sc;
+
+            // Create new item based on 'inc' or 'exp' type
+            if (type === 'exp') {
+                newItem = new Expense(ID, des, val);
+            } else if (type === 'inc') {
+                newItem = new Income(ID, des, val);
+            }
+
+            // Push it into our data structure
+            data.allItems[type].push(newItem);
+
+            // Return the new element
+            return newItem;
+        },
+
+
+        deleteItem: function(type, id) {
+            var ids, index;
+
+            // id = 6
+            //data.allItems[type][id];
+            // ids = [1 2 4  8]
+            //index = 3
+
+            ids = data.allItems[type].map(function(current) {
+                return current.id;
+            });
+
+            index = ids.indexOf(id);
+
+            if (index !== -1) {
+                data.allItems[type].splice(index, 1);
+            }
+
+        },
+
+
+        calculateBudget: function() {
+
+            // calculate total income and expenses
+            calculateTotal('exp');
+            calculateTotal('inc');
+
+            // Calculate the budget: income - expenses
+            data.budget = data.totals.inc - data.totals.exp;
+
+            // calculate the percentage of income that we spent
+            if (data.totals.inc > 0) {
+                data.percentage = Math.round((data.totals.exp / data.totals.inc) * 100);
+            } else {
+                data.percentage = -1;
+            }
+
+            // Expense = 100 and income 300, spent 33.333% = 100/300 = 0.3333 * 100
+        },
+
+        calculatePercentages: function() {
+
+            /*
+            a=20
+            b=10
+            c=40
+            income = 100
+            a=20/100=20%
+            b=10/100=10%
+            c=40/100=40%
+            */
+
+            data.allItems.exp.forEach(function(cur) {
+               cur.calcPercentage(data.totals.inc);
+            });
+        },
+
+
+        getPercentages: function() {
+            var allPerc = data.allItems.exp.map(function(cur) {
+                return cur.getPercentage();
+            });
+            return allPerc;
+        },
+
+
+        getBudget: function() {
+            return {
+                budget: data.budget,
+                totalInc: data.totals.inc,
+                totalExp: data.totals.exp,
+                percentage: data.percentage
+            };
+        },
+
+        testing: function() {
+            console.log(data);
         }
-    }
-    var keepScore = score();
-
-
-    function nextQuestion() {
-        var n = Math.floor(Math.random() * questions.length);
-        questions[n].displayQuestion();
-        var answer = prompt('Please select the correct answer.');
-        if(answer !== 'exit') {
-            questions[n].checkAnswer(parseInt(answer), keepScore);
-
-            nextQuestion();
-        }
-    }
-
-    nextQuestion();
+    };
 
 })();
